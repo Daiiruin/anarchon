@@ -1,5 +1,11 @@
 # Plans d'exécution locaux — non versionnés
 /docs/
 
-# Espace de travail interne subagent-driven-development
-/.superpowers/
+# Node / build
+node_modules/
+dist/
+*.tsbuildinfo
+
+# Environnement
+.env
+.env.*.local
