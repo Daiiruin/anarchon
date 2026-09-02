@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AuthModule } from './features/auth/auth.module';
+import { CasesModule } from './features/cases/cases.module';
 import { validateEnv } from './config/env.validation';
 import { buildDatabaseConfig } from './config/database.config';
 
@@ -14,6 +15,7 @@ import { buildDatabaseConfig } from './config/database.config';
       useFactory: buildDatabaseConfig,
     }),
     AuthModule,
+    CasesModule,
   ],
 })
 export class AppModule {}
