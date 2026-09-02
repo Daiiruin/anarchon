@@ -13,7 +13,7 @@ function DifficultyDots({ difficulty }: { difficulty: number }) {
   return (
     <span
       aria-label={`Difficulté ${difficulty} sur 5`}
-      className="tracking-widest"
+      className="text-xs tracking-widest"
     >
       <span className="text-primary">{'●'.repeat(difficulty)}</span>
       <span className="text-muted-foreground">
@@ -37,18 +37,20 @@ export function CaseCard({ caseSummary }: { caseSummary: CaseSummary }) {
             className="h-full w-full object-cover"
           />
         ) : (
-          <div className="flex h-full w-full items-center justify-center text-sm text-muted-foreground">
+          <div className="flex h-full w-full items-center justify-center text-xs text-muted-foreground">
             Aucune image
           </div>
         )}
       </div>
-      <div className="flex flex-col gap-2 p-4">
-        <h2 className="text-lg font-semibold">{caseSummary.title}</h2>
-        <p className="text-sm text-muted-foreground">{caseSummary.eraLabel}</p>
-        <p className="text-sm text-foreground">{caseSummary.synopsisExcerpt}</p>
-        <div className="flex items-center justify-between pt-2">
+      <div className="flex flex-col gap-1.5 p-3">
+        <h2 className="text-sm font-semibold">{caseSummary.title}</h2>
+        <p className="text-xs text-muted-foreground">{caseSummary.eraLabel}</p>
+        <p className="line-clamp-2 text-xs text-foreground">
+          {caseSummary.synopsisExcerpt}
+        </p>
+        <div className="flex items-center justify-between pt-1">
           <DifficultyDots difficulty={caseSummary.difficulty} />
-          <span className="text-xs tracking-wide text-muted-foreground uppercase">
+          <span className="text-[0.65rem] tracking-wide text-muted-foreground uppercase">
             {STATUS_LABELS[caseSummary.status]}
           </span>
         </div>
