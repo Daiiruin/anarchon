@@ -9,13 +9,11 @@ describe('refreshAccessToken', () => {
   });
 
   it('shares a single in-flight request across concurrent callers', async () => {
-    const fetchSpy = vi
-      .spyOn(globalThis, 'fetch')
-      .mockResolvedValue(
-        new Response(JSON.stringify({ access_token: 'new-token' }), {
-          status: 201,
-        }),
-      );
+    const fetchSpy = vi.spyOn(globalThis, 'fetch').mockResolvedValue(
+      new Response(JSON.stringify({ access_token: 'new-token' }), {
+        status: 201,
+      }),
+    );
 
     const [first, second] = await Promise.all([
       refreshAccessToken(),
