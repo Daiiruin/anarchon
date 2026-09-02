@@ -9,3 +9,6 @@ dist/
 # Environnement
 .env
 .env.*.local
+
+# Médias locaux (solution temporaire avant un vrai object storage — voir README_ANACHRON.md)
+anarchon-backend/media/
