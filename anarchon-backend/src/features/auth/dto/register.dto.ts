@@ -1,8 +1,16 @@
-import { IsEmail, IsString, Matches, MinLength } from 'class-validator';
+import { IsEmail, IsEnum, IsString, Matches, MinLength } from 'class-validator';
+import { Gender } from '../../users/enums/gender.enum';
 
 export class RegisterDto {
   @IsEmail()
   declare email: string;
+
+  @IsString()
+  @MinLength(2)
+  declare name: string;
+
+  @IsEnum(Gender)
+  declare gender: Gender;
 
   @IsString()
   @MinLength(8)

@@ -1,23 +1,61 @@
 import { Test } from '@nestjs/testing';
 import { ConflictException, UnauthorizedException } from '@nestjs/common';
-import { getRepositoryToken } from '@nestjs/typeorm';
+import { getRepositoryToken, getDataSourceToken } from '@nestjs/typeorm';
 import { JwtService } from '@nestjs/jwt';
+import { ConfigService } from '@nestjs/config';
 import * as bcrypt from 'bcryptjs';
 import { AuthService } from './auth.service';
-import { User } from './entities/user.entity';
+import { RefreshSession } from './entities/refresh-session.entity';
+import { UsersService } from '../users/users.service';
+import { Gender } from '../users/enums/gender.enum';
 
 describe('AuthService', () => {
   let service: AuthService;
-  const repo = { findOne: jest.fn(), create: jest.fn(), save: jest.fn() };
-  const jwt = { sign: jest.fn().mockReturnValue('signed-token') };
+
+  const usersService = {
+    findByEmail: jest.fn(),
+    findByEmailWithPasswordHash: jest.fn(),
+    findById: jest.fn(),
+    create: jest.fn(),
+  };
+  const jwtService = { sign: jest.fn().mockReturnValue('signed-token') };
+  const configService = {
+    getOrThrow: jest.fn().mockReturnValue('test-secret'),
+  };
+  const refreshSessionsRepo = {
+    findOne: jest.fn(),
+    create: jest.fn((data: unknown) => data),
+    save: jest.fn(),
+    update: jest.fn(),
+  };
+  const manager = {
+    update: jest.fn(),
+    getRepository: jest.fn(() => refreshSessionsRepo),
+  };
+  const dataSource = {
+    transaction: jest.fn((cb: (m: typeof manager) => unknown) => cb(manager)),
+  };
+
+  const baseUser = {
+    id: '1',
+    email: 'a@a.com',
+    name: 'Ada',
+    gender: Gender.FEMME,
+  };
 
   beforeEach(async () => {
     jest.clearAllMocks();
     const module = await Test.createTestingModule({
       providers: [
         AuthService,
-        { provide: getRepositoryToken(User), useValue: repo },
-        { provide: JwtService, useValue: jwt },
+        { provide: UsersService, useValue: usersService },
+        { provide: JwtService, useValue: jwtService },
+        { provide: ConfigService, useValue: configService },
+        {
+          provide: getRepositoryToken(RefreshSession),
+          useValue: refreshSessionsRepo,
+        },
+        { provide: getDataSourceToken(), useValue: dataSource },
       ],
     }).compile();
     service = module.get(AuthService);
@@ -25,53 +63,53 @@ describe('AuthService', () => {
 
   describe('register', () => {
     it('throws ConflictException when email already exists', async () => {
-      repo.findOne.mockResolvedValue({ id: '1', email: 'a@a.com' });
+      usersService.findByEmail.mockResolvedValue(baseUser);
       await expect(
-        service.register({ email: 'a@a.com', password: 'pass1234' }),
+        service.register({
+          email: 'a@a.com',
+          password: 'pass1234',
+          name: 'Ada',
+          gender: Gender.FEMME,
+        }),
       ).rejects.toThrow(ConflictException);
     });
 
     it('hashes password and returns tokens', async () => {
-      repo.findOne.mockResolvedValue(null);
-      repo.create.mockReturnValue({
-        id: '1',
-        email: 'a@a.com',
-        password: 'hashed',
-      });
-      repo.save.mockResolvedValue({
-        id: '1',
-        email: 'a@a.com',
-        password: 'hashed',
-      });
+      usersService.findByEmail.mockResolvedValue(null);
+      usersService.create.mockResolvedValue(baseUser);
 
       const result = await service.register({
         email: 'a@a.com',
         password: 'pass1234',
+        name: 'Ada',
+        gender: Gender.FEMME,
       });
 
       expect(result).toHaveProperty('access_token');
       expect(result).toHaveProperty('refresh_token');
-      const call = repo.create.mock.calls[0][0];
-      expect(call.password).not.toBe('pass1234');
-      await expect(bcrypt.compare('pass1234', call.password)).resolves.toBe(
+      const call = usersService.create.mock.calls[0][0] as {
+        passwordHash: string;
+      };
+      expect(call.passwordHash).not.toBe('pass1234');
+      await expect(bcrypt.compare('pass1234', call.passwordHash)).resolves.toBe(
         true,
       );
+      expect(refreshSessionsRepo.save).toHaveBeenCalled();
     });
   });
 
   describe('login', () => {
     it('throws UnauthorizedException for unknown email', async () => {
-      repo.findOne.mockResolvedValue(null);
+      usersService.findByEmailWithPasswordHash.mockResolvedValue(null);
       await expect(
         service.login({ email: 'x@x.com', password: 'pass1234' }),
       ).rejects.toThrow(UnauthorizedException);
     });
 
     it('throws UnauthorizedException for wrong password', async () => {
-      repo.findOne.mockResolvedValue({
-        id: '1',
-        email: 'a@a.com',
-        password: await bcrypt.hash('correct', 10),
+      usersService.findByEmailWithPasswordHash.mockResolvedValue({
+        ...baseUser,
+        passwordHash: await bcrypt.hash('correct', 10),
       });
       await expect(
         service.login({ email: 'a@a.com', password: 'wrong' }),
@@ -79,11 +117,10 @@ describe('AuthService', () => {
     });
 
     it('returns tokens for valid credentials', async () => {
-      const hashed = await bcrypt.hash('pass1234', 10);
-      repo.findOne.mockResolvedValue({
-        id: '1',
-        email: 'a@a.com',
-        password: hashed,
+      const passwordHash = await bcrypt.hash('pass1234', 10);
+      usersService.findByEmailWithPasswordHash.mockResolvedValue({
+        ...baseUser,
+        passwordHash,
       });
       const result = await service.login({
         email: 'a@a.com',
@@ -91,6 +128,70 @@ describe('AuthService', () => {
       });
       expect(result).toHaveProperty('access_token');
       expect(result).toHaveProperty('refresh_token');
+    });
+  });
+
+  describe('refresh', () => {
+    it('throws UnauthorizedException when no session matches the token', async () => {
+      refreshSessionsRepo.findOne.mockResolvedValue(null);
+      await expect(service.refresh('some-raw-token')).rejects.toThrow(
+        UnauthorizedException,
+      );
+    });
+
+    it('throws UnauthorizedException when the session was revoked', async () => {
+      refreshSessionsRepo.findOne.mockResolvedValue({
+        id: 's1',
+        userId: '1',
+        revokedAt: new Date(),
+        expiresAt: new Date(Date.now() + 10_000),
+      });
+      await expect(service.refresh('some-raw-token')).rejects.toThrow(
+        UnauthorizedException,
+      );
+    });
+
+    it('throws UnauthorizedException when the session has expired', async () => {
+      refreshSessionsRepo.findOne.mockResolvedValue({
+        id: 's1',
+        userId: '1',
+        revokedAt: null,
+        expiresAt: new Date(Date.now() - 10_000),
+      });
+      await expect(service.refresh('some-raw-token')).rejects.toThrow(
+        UnauthorizedException,
+      );
+    });
+
+    it('rotates the session: revokes the old one and issues a new pair', async () => {
+      refreshSessionsRepo.findOne.mockResolvedValue({
+        id: 's1',
+        userId: '1',
+        revokedAt: null,
+        expiresAt: new Date(Date.now() + 10_000),
+      });
+      usersService.findById.mockResolvedValue(baseUser);
+
+      const result = await service.refresh('some-raw-token');
+
+      expect(result).toHaveProperty('access_token');
+      expect(result).toHaveProperty('refresh_token');
+      expect(manager.update).toHaveBeenCalledWith(
+        RefreshSession,
+        { id: 's1' },
+        expect.objectContaining({ revokedAt: expect.any(Date) }),
+      );
+      expect(refreshSessionsRepo.save).toHaveBeenCalled();
+    });
+  });
+
+  describe('logout', () => {
+    it('revokes the session matching the token hash', async () => {
+      await service.logout('some-raw-token');
+      expect(refreshSessionsRepo.update).toHaveBeenCalledWith(
+        { tokenHash: expect.any(String) },
+        expect.objectContaining({ revokedAt: expect.any(Date) }),
+      );
     });
   });
 });
