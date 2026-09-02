@@ -10,15 +10,15 @@ interface SeedMediaAsset {
   mimeType: string;
 }
 
+// Un seul visuel pour l'Hôtel Beaumont : la carte catalogue et le fond de
+// la page détail utilisent tous les deux `cover` (coverAssetId ===
+// detailBackgroundId). Rien n'empêche une future affaire d'avoir un asset
+// de détail distinct — c'est un choix de contenu pour celle-ci, pas une
+// contrainte du schéma.
 const SEED_ASSETS = {
   cover: {
     key: 'hotel-beaumont.cover',
     storagePath: 'cases/hotel-beaumont/cover/cover.webp',
-    mimeType: 'image/webp',
-  },
-  detailBackground: {
-    key: 'hotel-beaumont.detail-background',
-    storagePath: 'cases/hotel-beaumont/cover/detail-background.webp',
     mimeType: 'image/webp',
   },
   map: {
@@ -57,10 +57,6 @@ async function findOrCreateMediaAsset(
 
 export async function seedHotelBeaumont(dataSource: DataSource): Promise<void> {
   const cover = await findOrCreateMediaAsset(dataSource, SEED_ASSETS.cover);
-  const detailBackground = await findOrCreateMediaAsset(
-    dataSource,
-    SEED_ASSETS.detailBackground,
-  );
   const map = await findOrCreateMediaAsset(dataSource, SEED_ASSETS.map);
 
   const casesRepo = dataSource.getRepository(Case);
@@ -75,7 +71,7 @@ export async function seedHotelBeaumont(dataSource: DataSource): Promise<void> {
       themeKey: 'hotel-1960',
       publicationStatus: CasePublicationStatus.PUBLISHED,
       coverAssetId: cover.id,
-      detailBackgroundId: detailBackground.id,
+      detailBackgroundId: cover.id,
       mapAssetId: map.id,
       sortOrder: 0,
     },
