@@ -11,7 +11,7 @@ export class MediaAsset {
   @PrimaryGeneratedColumn('uuid')
   declare id: string;
 
-  @Column({ nullable: true })
+  @Column({ type: 'uuid', nullable: true })
   declare caseId: string | null;
 
   @Column()
