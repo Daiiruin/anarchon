@@ -1,5 +1,11 @@
 import { plainToInstance } from 'class-transformer';
-import { IsNotEmpty, IsOptional, IsUrl, IsNumberString, validateSync } from 'class-validator';
+import {
+  IsNotEmpty,
+  IsOptional,
+  IsUrl,
+  IsNumberString,
+  validateSync,
+} from 'class-validator';
 
 class EnvironmentVariables {
   @IsNotEmpty()
@@ -28,7 +34,9 @@ class EnvironmentVariables {
   declare PORT?: string;
 }
 
-export function validateEnv(config: Record<string, unknown>): EnvironmentVariables {
+export function validateEnv(
+  config: Record<string, unknown>,
+): EnvironmentVariables {
   const validated = plainToInstance(EnvironmentVariables, config, {
     enableImplicitConversion: true,
   });

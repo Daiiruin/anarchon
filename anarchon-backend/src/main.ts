@@ -19,7 +19,8 @@ async function bootstrap() {
   );
   app.use(cookieParser());
   app.enableCors({
-    origin: configService.get<string>('FRONTEND_URL') || 'http://localhost:5173',
+    origin:
+      configService.get<string>('FRONTEND_URL') || 'http://localhost:5173',
     credentials: true,
   });
 

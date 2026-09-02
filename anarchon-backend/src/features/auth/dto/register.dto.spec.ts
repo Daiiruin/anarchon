@@ -1,20 +1,31 @@
 import { validate } from 'class-validator';
 import { plainToInstance } from 'class-transformer';
 import { RegisterDto } from './register.dto';
+import { Gender } from '../../users/enums/gender.enum';
 
-function buildDto(password: string): RegisterDto {
-  return plainToInstance(RegisterDto, { email: 'test@example.com', password });
+function buildDto(
+  overrides: Partial<
+    Record<'email' | 'password' | 'name' | 'gender', unknown>
+  > = {},
+): RegisterDto {
+  return plainToInstance(RegisterDto, {
+    email: 'test@example.com',
+    password: 'Secure@1',
+    name: 'Ada',
+    gender: Gender.FEMME,
+    ...overrides,
+  });
 }
 
 async function getPasswordErrors(password: string): Promise<string[]> {
-  const errors = await validate(buildDto(password));
+  const errors = await validate(buildDto({ password }));
   const pwError = errors.find((e) => e.property === 'password');
   return Object.values(pwError?.constraints ?? {});
 }
 
 describe('RegisterDto password validation', () => {
   it('accepts a valid strong password', async () => {
-    const errors = await validate(buildDto('Secure@1'));
+    const errors = await validate(buildDto());
     expect(errors).toHaveLength(0);
   });
 
@@ -56,5 +67,31 @@ describe('RegisterDto password validation', () => {
   it('rejects a password where the only special character is a unicode letter', async () => {
     const messages = await getPasswordErrors('Secureé1');
     expect(messages.length).toBeGreaterThan(0);
+  });
+});
+
+describe('RegisterDto name/gender validation', () => {
+  it('rejects a missing name', async () => {
+    const errors = await validate(buildDto({ name: undefined }));
+    expect(errors.some((e) => e.property === 'name')).toBe(true);
+  });
+
+  it('rejects a name shorter than 2 characters', async () => {
+    const errors = await validate(buildDto({ name: 'A' }));
+    expect(errors.some((e) => e.property === 'name')).toBe(true);
+  });
+
+  it('rejects an invalid gender value', async () => {
+    const errors = await validate(buildDto({ gender: 'AUTRE' }));
+    expect(errors.some((e) => e.property === 'gender')).toBe(true);
+  });
+
+  it('accepts HOMME and FEMME', async () => {
+    await expect(
+      validate(buildDto({ gender: Gender.HOMME })),
+    ).resolves.toHaveLength(0);
+    await expect(
+      validate(buildDto({ gender: Gender.FEMME })),
+    ).resolves.toHaveLength(0);
   });
 });

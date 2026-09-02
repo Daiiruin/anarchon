@@ -3,9 +3,11 @@ import {
   PrimaryGeneratedColumn,
   Column,
   CreateDateColumn,
+  UpdateDateColumn,
 } from 'typeorm';
+import { Gender } from '../enums/gender.enum';
 
-@Entity()
+@Entity('users')
 export class User {
   @PrimaryGeneratedColumn('uuid')
   declare id: string;
@@ -14,8 +16,17 @@ export class User {
   declare email: string;
 
   @Column({ select: false })
-  declare password: string;
+  declare passwordHash: string;
+
+  @Column()
+  declare name: string;
+
+  @Column({ type: 'enum', enum: Gender })
+  declare gender: Gender;
 
   @CreateDateColumn()
   declare createdAt: Date;
+
+  @UpdateDateColumn()
+  declare updatedAt: Date;
 }
