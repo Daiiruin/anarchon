@@ -24,6 +24,7 @@
     "@nestjs/jwt": "^10.0.0",
     "@nestjs/passport": "^10.0.0",
     "@nestjs/platform-express": "^10.0.0",
+    "@nestjs/serve-static": "^4.0.2",
     "@nestjs/swagger": "^7.4.0",
     "@nestjs/typeorm": "^10.0.0",
     "bcryptjs": "^3.0.3",
@@ -72,7 +73,9 @@
     ],
     "rootDir": "src",
     "testRegex": ".*\\.spec\\.ts$",
-    "setupFiles": ["<rootDir>/jest.setup.ts"],
+    "setupFiles": [
+      "<rootDir>/jest.setup.ts"
+    ],
     "transform": {
       "^.+\\.(t|j)s$": "ts-jest"
     },
