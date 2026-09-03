@@ -6,6 +6,7 @@ import hotelBeaumontLocations from '../../content/cases/le-meurtre-de-l-hotel-be
 import hotelBeaumontItems from '../../content/cases/le-meurtre-de-l-hotel-beaumont/items.json';
 import hotelBeaumontCharacters from '../../content/cases/le-meurtre-de-l-hotel-beaumont/characters.json';
 import hotelBeaumontDocuments from '../../content/cases/le-meurtre-de-l-hotel-beaumont/documents.json';
+import hotelBeaumontQuestions from '../../content/cases/le-meurtre-de-l-hotel-beaumont/questions.json';
 import hotelBeaumontSolution from '../../content/cases/le-meurtre-de-l-hotel-beaumont/solution.json';
 
 export interface CaseElements {
@@ -13,6 +14,7 @@ export interface CaseElements {
   items: GameElement[];
   characters: GameElement[];
   documents: GameElement[];
+  questions: GameElement[];
 }
 
 export interface CaseSolution {
@@ -25,8 +27,9 @@ const CASE_CONTENT: Record<string, CaseElements> = {
   [hotelBeaumontManifest.caseId]: {
     locations: hotelBeaumontLocations as GameElement[],
     items: hotelBeaumontItems as GameElement[],
-    characters: hotelBeaumontCharacters,
-    documents: hotelBeaumontDocuments,
+    characters: hotelBeaumontCharacters as GameElement[],
+    documents: hotelBeaumontDocuments as GameElement[],
+    questions: hotelBeaumontQuestions as GameElement[],
   },
 };
 
@@ -49,6 +52,7 @@ export class CaseContentService {
       ...content.items,
       ...content.characters,
       ...content.documents,
+      ...content.questions,
     ].find((element) => element.id === elementId);
   }
 

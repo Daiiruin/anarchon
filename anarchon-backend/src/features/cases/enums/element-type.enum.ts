@@ -4,4 +4,5 @@ export enum ElementType {
   CHARACTER = 'character',
   DOCUMENT = 'document',
   TESTIMONY = 'testimony',
+  QUESTION = 'question',
 }

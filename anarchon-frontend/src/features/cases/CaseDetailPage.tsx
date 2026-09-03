@@ -67,12 +67,11 @@ export function CaseDetailPage() {
 
         <p className="leading-relaxed text-foreground">{data.synopsis}</p>
 
-        {/*
-          Le bouton n'a volontairement pas de onClick : POST /cases/:slug/start
-          n'existe pas encore côté backend (doc 02, GameEngine). Visuellement
-          complet, fonctionnellement inerte jusque-là.
-        */}
-        <Button size="lg" className="self-start">
+        <Button
+          size="lg"
+          className="self-start"
+          onClick={() => void navigate(`/cases/${data.slug}/play`)}
+        >
           {ACTION_LABELS[data.status]}
         </Button>
       </div>

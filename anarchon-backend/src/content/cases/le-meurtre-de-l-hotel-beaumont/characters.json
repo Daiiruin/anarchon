@@ -1,1 +1,38 @@
-[]
+[
+  {
+    "id": "antoine-ferrand",
+    "type": "character",
+    "title": "Antoine Ferrand",
+    "description": "Réceptionniste de nuit à l'Hôtel Beaumont depuis trois ans.",
+    "imageUrl": "/media/cases/hotel-beaumont/characters/antoine-ferrand.webp",
+    "requiredDiscoveries": ["hall"],
+    "data": {
+      "role": "witness",
+      "locationId": "hall"
+    }
+  },
+  {
+    "id": "margaux-beaumont",
+    "type": "character",
+    "title": "Margaux Beaumont",
+    "description": "L'épouse de Charles, récemment nommée directrice financière de l'hôtel.",
+    "imageUrl": "/media/cases/hotel-beaumont/characters/margaux-beaumont.webp",
+    "requiredDiscoveries": ["vasseur-matchbook"],
+    "data": {
+      "role": "suspect",
+      "locationId": "hall"
+    }
+  },
+  {
+    "id": "marcel-roussel",
+    "type": "character",
+    "title": "Marcel Roussel",
+    "description": "Homme de ménage à l'Hôtel Beaumont. Il a l'air nerveux.",
+    "imageUrl": "/media/cases/hotel-beaumont/characters/marcel-roussel.webp",
+    "requiredDiscoveries": ["access-log"],
+    "data": {
+      "role": "suspect",
+      "locationId": "hall"
+    }
+  }
+]

@@ -1,11 +1,23 @@
 [
   {
-    "id": "bloody-key",
+    "id": "letter-opener",
     "type": "item",
-    "title": "Clé ensanglantée",
-    "description": "Une petite clé retrouvée sous le lit.",
-    "imageUrl": "/media/cases/hotel-beaumont/items/bloody-key.webp",
+    "title": "Coupe-papier ensanglanté",
+    "description": "Le coupe-papier en argent de Charles Beaumont, habituellement posé sur son secrétaire. La lame porte des traces de sang séché.",
+    "imageUrl": "/media/cases/hotel-beaumont/items/letter-opener.webp",
     "requiredDiscoveries": ["room-417"],
+    "data": {
+      "roomId": "room-417",
+      "inspectable": true
+    }
+  },
+  {
+    "id": "vasseur-matchbook",
+    "type": "item",
+    "title": "Pochette d'allumettes de l'Hôtel Vasseur",
+    "description": "Une pochette d'allumettes publicitaire au nom de l'Hôtel Vasseur, un établissement concurrent. Étrange de la trouver ici, tombée près du secrétaire.",
+    "imageUrl": "/media/cases/hotel-beaumont/items/vasseur-matchbook.webp",
+    "requiredDiscoveries": ["letter-opener"],
     "data": {
       "roomId": "room-417",
       "inspectable": true

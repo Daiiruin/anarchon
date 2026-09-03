@@ -1,0 +1,42 @@
+[
+  {
+    "id": "antoine-q-what-happened",
+    "type": "question",
+    "title": "Que s'est-il passé cette nuit ?",
+    "description": "Il a vu Charles Beaumont monter se coucher vers 22h, comme chaque soir, et n'a rien remarqué d'anormal avant l'agitation qui a suivi la découverte du corps. Il propose de vous accompagner jusqu'à la chambre 417.",
+    "requiredDiscoveries": ["antoine-ferrand"],
+    "data": { "characterId": "antoine-ferrand" }
+  },
+  {
+    "id": "antoine-q-anything-else",
+    "type": "question",
+    "title": "Vous souvenez-vous d'autre chose ?",
+    "description": "Il se souvient avoir croisé Marcel Roussel à l'office, au sous-sol, vers 22h15 — au moment même où le registre des accès situe le badge de ce dernier à l'étage. Une contradiction qui ne colle pas.",
+    "requiredDiscoveries": ["antoine-ferrand", "access-log"],
+    "data": { "characterId": "antoine-ferrand" }
+  },
+  {
+    "id": "margaux-q-matchbook",
+    "type": "question",
+    "title": "D'où vient cette pochette d'allumettes de l'Hôtel Vasseur ?",
+    "description": "« Oh, oui... C'était lundi soir, à l'inauguration d'un de leurs nouveaux hôtels. C'est Charles qui m'avait demandé d'y aller, pour observer comment ils travaillent. » L'inauguration a bel et bien eu lieu ce lundi soir — mais rien, pour l'instant, ne confirme qu'elle s'y trouvait réellement.",
+    "requiredDiscoveries": ["margaux-beaumont"],
+    "data": { "characterId": "margaux-beaumont" }
+  },
+  {
+    "id": "marcel-q-badge",
+    "type": "question",
+    "title": "Le registre place votre badge dans la chambre 417 à 22h15, qu'avez-vous à dire ?",
+    "description": "Il jure n'être jamais monté à l'étage ce soir-là et affirme avoir passé la soirée à l'office, au sous-sol.",
+    "requiredDiscoveries": ["marcel-roussel"],
+    "data": { "characterId": "marcel-roussel" }
+  },
+  {
+    "id": "marcel-locker-key",
+    "type": "question",
+    "title": "Demander la clé d'accès à son casier",
+    "description": "Hésitant, il vous tend la clé de son casier, le regard fuyant.",
+    "requiredDiscoveries": ["marcel-roussel", "notebook"],
+    "data": { "characterId": "marcel-roussel" }
+  }
+]

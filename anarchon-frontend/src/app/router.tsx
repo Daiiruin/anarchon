@@ -5,6 +5,7 @@ import { LoginPage } from '@/features/auth/LoginPage';
 import { RegisterPage } from '@/features/auth/RegisterPage';
 import { CasesCataloguePage } from '@/features/cases/CasesCataloguePage';
 import { CaseDetailPage } from '@/features/cases/CaseDetailPage';
+import { CaseGamePage } from '@/features/game/CaseGamePage';
 
 export const router = createBrowserRouter([
   {
@@ -18,6 +19,7 @@ export const router = createBrowserRouter([
           { path: '/', element: <Navigate to="/cases" replace /> },
           { path: '/cases', element: <CasesCataloguePage /> },
           { path: '/cases/:slug', element: <CaseDetailPage /> },
+          { path: '/cases/:slug/play', element: <CaseGamePage /> },
         ],
       },
     ],

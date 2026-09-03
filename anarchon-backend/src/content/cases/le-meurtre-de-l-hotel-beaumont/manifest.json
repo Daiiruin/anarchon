@@ -1,4 +1,4 @@
 {
   "caseId": "le-meurtre-de-l-hotel-beaumont",
-  "contentFiles": ["locations.json", "items.json", "characters.json", "documents.json"]
+  "contentFiles": ["locations.json", "items.json", "characters.json", "documents.json", "questions.json"]
 }

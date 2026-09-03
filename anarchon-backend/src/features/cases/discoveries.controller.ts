@@ -1,6 +1,9 @@
 import {
   Controller,
+  Delete,
+  ForbiddenException,
   Get,
+  HttpCode,
   NotFoundException,
   Param,
   Post,
@@ -58,5 +61,20 @@ export class DiscoveriesController {
     const discoveredElementIds =
       await this.progressionService.getDiscoveredElementIds(user.id, slug);
     return { discoveredElementIds };
+  }
+
+  // Outil de dev : réinitialise la progression pour rejouer l'affaire. Refusé en production.
+  @Delete('progress')
+  @HttpCode(204)
+  async resetProgress(
+    @Param('slug') slug: string,
+    @Req() req: Request,
+  ): Promise<void> {
+    if (process.env.NODE_ENV === 'production') {
+      throw new ForbiddenException();
+    }
+    const user = req.user as { id: string };
+    await this.casesService.getPublishedCaseOrFail(slug);
+    await this.progressionService.resetProgress(user.id, slug);
   }
 }

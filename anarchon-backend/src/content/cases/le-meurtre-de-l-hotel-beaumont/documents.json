@@ -1,1 +1,63 @@
-[]
+[
+  {
+    "id": "charles-schedule",
+    "type": "document",
+    "title": "Emploi du temps de Charles",
+    "description": "L'agenda personnel de Charles Beaumont, posé sur son secrétaire. La plupart des rendez-vous de la semaine n'ont rien de notable — réunion avec le personnel, essayage chez le tailleur, visite du garagiste. Une ligne détonne : le lundi soir, il a noté un dîner au restaurant avec son épouse, qui se serait prolongé « toute la soirée ».",
+    "imageUrl": "/media/cases/hotel-beaumont/documents/charles-schedule.webp",
+    "requiredDiscoveries": ["room-417"],
+    "data": {
+      "roomId": "room-417",
+      "entries": [
+        "Lundi soir — Dîner au restaurant avec Margaux, toute la soirée",
+        "Mardi — Réunion avec le personnel",
+        "Mercredi — Essayage chez le tailleur",
+        "Jeudi — Visite du garagiste"
+      ]
+    }
+  },
+  {
+    "id": "access-log",
+    "type": "document",
+    "title": "Registre des accès — Chambre 417",
+    "description": "Le relevé électronique des badges ayant ouvert la porte de la chambre 417 dans la soirée. Un seul accès y est enregistré avant la découverte du corps : celui de Marcel Roussel, à 22h15.",
+    "imageUrl": "/media/cases/hotel-beaumont/documents/access-log.webp",
+    "requiredDiscoveries": ["vasseur-matchbook"],
+    "data": {
+      "entries": ["22h15 — Badge Marcel Roussel — Chambre 417"]
+    }
+  },
+  {
+    "id": "notebook",
+    "type": "document",
+    "title": "Carnet de notes",
+    "description": "Un carnet personnel, oublié dans un tiroir de la conciergerie, entre les plannings de ménage. Marcel y confie que Charles Beaumont le traite « comme un chien » — sans un regard, parfois sans même une réponse — et s'emporte pour un rien. Les dernières pages laissent entendre qu'il songe à faire « quelque chose », quelque chose qu'il n'ose pas encore, tant les conséquences pourraient être graves pour sa vie.",
+    "imageUrl": "/media/cases/hotel-beaumont/documents/notebook.webp",
+    "requiredDiscoveries": ["conciergerie"],
+    "data": {
+      "roomId": "conciergerie"
+    }
+  },
+  {
+    "id": "resignation-letter",
+    "type": "document",
+    "title": "Lettre de démission",
+    "description": "Une lettre de démission, rédigée à la main puis abandonnée — jamais signée, jamais envoyée. Marcel y explique, dans des mots simples, qu'il ne supporte plus la façon dont Charles Beaumont le traite.",
+    "imageUrl": "/media/cases/hotel-beaumont/documents/resignation-letter.webp",
+    "requiredDiscoveries": ["marcel-locker-key"],
+    "data": {
+      "roomId": "conciergerie"
+    }
+  },
+  {
+    "id": "wife-letter",
+    "type": "document",
+    "title": "Lettre de son épouse",
+    "description": "Une lettre de l'épouse de Marcel, glissée dans le même casier. Elle y décrit leur situation : les fins de mois trop justes, les besoins de leur enfant qui pèsent chaque jour un peu plus lourd. Elle le supplie de tenir bon et de ne surtout pas démissionner, quoi qu'il en coûte. Ce que le carnet de notes laissait présager comme une menace n'était donc que ça : l'envie, refoulée, de tout quitter.",
+    "imageUrl": "/media/cases/hotel-beaumont/documents/wife-letter.webp",
+    "requiredDiscoveries": ["marcel-locker-key"],
+    "data": {
+      "roomId": "conciergerie"
+    }
+  }
+]

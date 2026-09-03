@@ -38,6 +38,11 @@ export class ProgressionService {
     return this.getDiscoveredElementIds(userId, caseId);
   }
 
+  async resetProgress(userId: string, caseId: string): Promise<void> {
+    await this.playerDiscoveryRepo.delete({ userId, caseId });
+    await this.caseProgressRepo.delete({ userId, caseId });
+  }
+
   async completeCase(userId: string, caseId: string): Promise<void> {
     await this.ensureStarted(userId, caseId);
     await this.caseProgressRepo.update(

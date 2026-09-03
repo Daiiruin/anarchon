@@ -24,6 +24,9 @@ export class CaseElementsDto {
 
   @ApiProperty({ type: [GameElementDto] })
   declare documents: GameElementDto[];
+
+  @ApiProperty({ type: [GameElementDto] })
+  declare questions: GameElementDto[];
 }
 
 export class CaseContentDto {
