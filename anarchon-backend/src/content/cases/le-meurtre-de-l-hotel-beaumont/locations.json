@@ -1,0 +1,18 @@
+[
+  {
+    "id": "hall",
+    "type": "location",
+    "title": "Hall de l'hôtel",
+    "description": "Le hall d'entrée, encore éclairé malgré l'heure tardive.",
+    "imageUrl": "/media/cases/hotel-beaumont/locations/hall/background.webp",
+    "requiredDiscoveries": []
+  },
+  {
+    "id": "room-417",
+    "type": "location",
+    "title": "Chambre 417",
+    "description": "La chambre où Charles Beaumont a été retrouvé mort.",
+    "imageUrl": "/media/cases/hotel-beaumont/locations/room-417/background.webp",
+    "requiredDiscoveries": ["hall"]
+  }
+]

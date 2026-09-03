@@ -2,15 +2,14 @@ import {
   Entity,
   PrimaryGeneratedColumn,
   Column,
+  CreateDateColumn,
   ManyToOne,
   JoinColumn,
-  Unique,
 } from 'typeorm';
 import { User } from '../../users/entities/user.entity';
 
-@Entity('case_progress')
-@Unique(['userId', 'caseId'])
-export class CaseProgress {
+@Entity('accusations')
+export class Accusation {
   @PrimaryGeneratedColumn('uuid')
   declare id: string;
 
@@ -21,15 +20,21 @@ export class CaseProgress {
   @JoinColumn({ name: 'user_id' })
   declare user: User;
 
-  @Column({ type: 'varchar' })
+  @Column()
   declare caseId: string;
 
-  @Column({ type: 'timestamptz' })
-  declare startedAt: Date;
+  @Column()
+  declare suspectId: string;
 
-  @Column({ type: 'timestamptz', nullable: true })
-  declare completedAt: Date | null;
+  @Column()
+  declare motiveId: string;
 
-  @Column({ type: 'varchar', nullable: true })
-  declare lastLocationElementId: string | null;
+  @Column()
+  declare weaponId: string;
+
+  @Column()
+  declare isCorrect: boolean;
+
+  @CreateDateColumn()
+  declare submittedAt: Date;
 }

@@ -11,6 +11,24 @@ Le projet doit rester suffisamment raisonnable pour être terminé, tout en prop
 
 ---
 
+> ## ⚠️ Mise à jour d'architecture (backend)
+>
+> Ce README garde toute sa valeur pour la **vision produit et gameplay** : univers, parcours joueur, catalogue, lieux, personnages, interrogatoires, déductions, tableau d'enquête, accusation, thèmes, audio.
+>
+> En revanche, la V1 a été recentrée sur un backend beaucoup plus léger — voir `docs/README_BACKEND_SIMPLIFICATION.md`, qui fait désormais référence. Sont **abandonnés** :
+> - le `GameEngine` générique et les `unlock_rules` / `unlock_rule_requirements` ;
+> - le modèle de données par entité (`case_elements`, `locations`, `characters`, `evidences`, `documents`, `interrogation_questions`, `testimonies`, `deductions`, `deduction_requirements`, `board_relations`, `player_element_states`) ;
+> - les modules NestJS `investigation`, `interrogations`, `deductions`, `game-engine` ;
+> - la règle stricte « le frontend ne reçoit jamais un élément non débloqué » (section « Anti-spoil et sécurité ») — assouplie, voir plus bas.
+>
+> À la place : contenu narratif en fichiers JSON (interface `GameElement`), une seule table `player_discoveries`, états `hidden` / `available` / `discovered` calculés côté React, table `accusations` simplifiée.
+>
+> Sections de ce document désormais **obsolètes et remplacées**, marquées `(obsolète)` dans le sommaire ci-dessous : « Architecture backend NestJS », « Modèle de données PostgreSQL / TypeORM », « Game Engine », le point 1 de « Règles d'architecture importantes », les phases 3 à 8 de la « Roadmap d'implémentation », « Mini guide backend » et tout ce qui suit (entités, services, seed technique, premiers commits).
+>
+> Ce qui reste vrai et implémenté tel quel : `docs/01-backend-fondation.md` (auth, médias, catalogue/détail) et `docs/04-frontend-fondation.md` (login, catalogue, détail).
+
+---
+
 # Sommaire
 
 1. [Vision générale](#vision-générale)
@@ -37,15 +55,15 @@ Le projet doit rester suffisamment raisonnable pour être terminé, tout en prop
 22. [Anti-spoil et sécurité](#anti-spoil-et-sécurité)
 23. [Responsive](#responsive)
 24. [Architecture frontend](#architecture-frontend)
-25. [Architecture backend NestJS](#architecture-backend-nestjs)
-26. [Modèle de données PostgreSQL / TypeORM](#modèle-de-données-postgresql--typeorm)
-27. [Game Engine](#game-engine)
-28. [Règles d'architecture importantes](#règles-darchitecture-importantes)
+25. [Architecture backend NestJS](#architecture-backend-nestjs) — *(obsolète, voir README_BACKEND_SIMPLIFICATION.md)*
+26. [Modèle de données PostgreSQL / TypeORM](#modèle-de-données-postgresql--typeorm) — *(obsolète, voir README_BACKEND_SIMPLIFICATION.md)*
+27. [Game Engine](#game-engine) — *(obsolète, voir README_BACKEND_SIMPLIFICATION.md)*
+28. [Règles d'architecture importantes](#règles-darchitecture-importantes) — *(point 1 obsolète)*
 29. [MVP](#mvp)
 30. [Ce qui n'est PAS dans la V1](#ce-qui-nest-pas-dans-la-v1)
-31. [Roadmap d'implémentation](#roadmap-dimplémentation)
-32. [Mini guide backend](#mini-guide-backend)
-33. [Premiers commits conseillés](#premiers-commits-conseillés)
+31. [Roadmap d'implémentation](#roadmap-dimplémentation) — *(phases 3 à 8 obsolètes)*
+32. [Mini guide backend](#mini-guide-backend) — *(obsolète, voir README_BACKEND_SIMPLIFICATION.md)*
+33. [Premiers commits conseillés](#premiers-commits-conseillés) — *(obsolète)*
 
 ---
 
@@ -1208,6 +1226,8 @@ Préchargement intelligent :
 
 # Anti-spoil et sécurité
 
+> **Obsolète (assoupli) :** Anachron étant une expérience solo non compétitive, `README_BACKEND_SIMPLIFICATION.md` assume que le frontend calcule lui-même les états `hidden`/`available`/`discovered` à partir du contenu JSON complet de l'affaire. Seule `solution.json` reste strictement backend. La règle ci-dessous décrit l'intention originelle (ne jamais spoiler le joueur) mais plus son application stricte côté transport réseau.
+
 Règle fondamentale :
 
 > Le frontend ne doit jamais recevoir une information narrative qu'il n'a pas encore débloquée.
@@ -1330,7 +1350,9 @@ Exemples d'état Zustand :
 
 # Architecture backend NestJS
 
-Architecture complète retenue :
+> **Obsolète :** remplacé par l'organisation décrite dans `docs/README_BACKEND_SIMPLIFICATION.md` (section « Nouvelle structure des modules NestJS »). Les modules `investigation`, `interrogations`, `deductions`, `game-engine` disparaissent ; `progression` devient un simple module `discoveries`.
+
+Architecture complète retenue (obsolète) :
 
 ```text
 src/
@@ -1483,6 +1505,8 @@ Responsabilités :
 ---
 
 # Modèle de données PostgreSQL / TypeORM
+
+> **Obsolète :** ce modèle par entité (une table par type de contenu narratif + moteur de règles) est abandonné. Le nouveau modèle est décrit dans `docs/README_BACKEND_SIMPLIFICATION.md` (section « Modèle de données PostgreSQL simplifié ») : `users` et `refresh_sessions` sont conservées telles quelles ci-dessous ; `cases` et `media_assets` restent valides (voir `docs/01-backend-fondation.md`, déjà implémenté) ; tout ce qui suit à partir de `case_elements` (locations, characters, evidences, documents, interrogation_questions, testimonies, deductions, deduction_requirements, board_relations, player_element_states, unlock_rules, unlock_rule_requirements) est remplacé par du contenu JSON + une table unique `player_discoveries`. `accusation_options` / `case_solutions` / `final_attempts` sont remplacées par une table `accusations` plus simple.
 
 ## users
 
@@ -1981,7 +2005,9 @@ Le `UNIQUE(case_progress_id)` garantit qu'une seule tentative finale est possibl
 
 # Game Engine
 
-Le Game Engine est la partie centrale du backend.
+> **Obsolète :** aucun `GameEngine` générique n'est construit. Le déblocage se réduit à une liste `requiredDiscoveries` par élément JSON, calculée côté React — voir `docs/README_BACKEND_SIMPLIFICATION.md` (section « Déblocage des éléments »).
+
+Le Game Engine est la partie centrale du backend (obsolète, voir note ci-dessus).
 
 Principe :
 
@@ -2040,7 +2066,9 @@ Le backend ne doit pas connaître le scénario sous forme de conditions codées 
 
 ## 1. La progression ne doit pas être modifiée n'importe où
 
-Règle :
+> **Obsolète :** cette règle supposait un `GameEngine` central. Sans lui, `DiscoveriesService` (ou équivalent) fait directement les quelques vérifications nécessaires (existence, doublon, éventuellement `requiredDiscoveries`) — voir `docs/README_BACKEND_SIMPLIFICATION.md`, section « Sécurité et limites assumées ».
+
+Règle (obsolète) :
 
 > Les modules métier ne débloquent pas arbitrairement des éléments directement.
 
@@ -2239,7 +2267,9 @@ Hôtel Beaumont
 
 ---
 
-## Phase 3 — Progression
+## Phase 3 — Progression (obsolète)
+
+> **Obsolète à partir d'ici jusqu'à la phase 8 incluse :** voir `docs/README_BACKEND_SIMPLIFICATION.md` pour le plan de migration retenu (contenu JSON, `player_discoveries`, états calculés côté React, pas de `GameEngine`). La phase 9 (contenu réel Hôtel Beaumont) reste pertinente, seulement écrite en JSON plutôt qu'en lignes de base de données.
 
 ```text
 CaseProgress
@@ -2381,7 +2411,9 @@ Une fois le moteur stable :
 
 # Mini guide backend
 
-Cette section sert de point de départ concret lorsque le backend est initialisé.
+> **Obsolète — jusqu'à la fin du document.** Cette section et toutes celles qui suivent (« Premières entités à créer », « Premiers services », « Seed technique Hôtel Beaumont », « Premiers commits conseillés ») décrivent l'ancien modèle par entités et le `GameEngine`. Elles sont remplacées par `docs/README_BACKEND_SIMPLIFICATION.md`, notamment sa section « Plan de migration ». Les sections finales « Principe directeur », « État actuel des décisions » et « Résumé court » restent valables pour la partie vision produit, mais leurs schémas backend (« Action joueur → GameEngine → UnlockRules ») sont obsolètes.
+
+Cette section sert de point de départ concret lorsque le backend est initialisé (obsolète, voir note ci-dessus).
 
 ## Arborescence cible
 

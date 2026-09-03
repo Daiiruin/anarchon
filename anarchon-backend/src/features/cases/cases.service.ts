@@ -33,10 +33,7 @@ export class CasesService {
   }
 
   async findBySlug(slug: string, userId: string): Promise<CaseDetailDto> {
-    const found = await this.casesRepo.findOne({ where: { slug } });
-    if (!found || found.publicationStatus !== CasePublicationStatus.PUBLISHED) {
-      throw new NotFoundException();
-    }
+    const found = await this.getPublishedCaseOrFail(slug);
 
     const [summary, detailBackgroundUrl] = await Promise.all([
       this.toSummaryDto(found, userId),
@@ -44,6 +41,14 @@ export class CasesService {
     ]);
 
     return { ...summary, synopsis: found.synopsis, detailBackgroundUrl };
+  }
+
+  async getPublishedCaseOrFail(slug: string): Promise<Case> {
+    const found = await this.casesRepo.findOne({ where: { slug } });
+    if (!found || found.publicationStatus !== CasePublicationStatus.PUBLISHED) {
+      throw new NotFoundException();
+    }
+    return found;
   }
 
   deriveStatus(progress: CaseProgress | null): CaseStatus {
@@ -59,7 +64,7 @@ export class CasesService {
   ): Promise<CaseSummaryDto> {
     const [progress, coverUrl] = await Promise.all([
       this.caseProgressRepo.findOne({
-        where: { userId, caseId: caseEntity.id },
+        where: { userId, caseId: caseEntity.slug },
       }),
       this.mediaService.resolveUrlById(caseEntity.coverAssetId),
     ]);

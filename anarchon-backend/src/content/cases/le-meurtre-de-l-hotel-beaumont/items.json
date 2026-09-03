@@ -1,0 +1,14 @@
+[
+  {
+    "id": "bloody-key",
+    "type": "item",
+    "title": "Clé ensanglantée",
+    "description": "Une petite clé retrouvée sous le lit.",
+    "imageUrl": "/media/cases/hotel-beaumont/items/bloody-key.webp",
+    "requiredDiscoveries": ["room-417"],
+    "data": {
+      "roomId": "room-417",
+      "inspectable": true
+    }
+  }
+]

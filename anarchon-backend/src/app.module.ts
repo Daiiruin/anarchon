@@ -5,6 +5,7 @@ import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
 import { AuthModule } from './features/auth/auth.module';
 import { CasesModule } from './features/cases/cases.module';
+import { AccusationsModule } from './features/accusations/accusations.module';
 import { validateEnv } from './config/env.validation';
 import { buildDatabaseConfig } from './config/database.config';
 
@@ -24,6 +25,7 @@ import { buildDatabaseConfig } from './config/database.config';
     }),
     AuthModule,
     CasesModule,
+    AccusationsModule,
   ],
 })
 export class AppModule {}
