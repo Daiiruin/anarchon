@@ -5,7 +5,6 @@ import { Case } from './entities/case.entity';
 import { CasePublicationStatus } from './enums/case-publication-status.enum';
 import { CaseStatus } from './enums/case-status.enum';
 import { CaseProgress } from '../progression/entities/case-progress.entity';
-import { MediaService } from '../media/media.service';
 import { CaseSummaryDto } from './dto/case-summary.dto';
 import { CaseDetailDto } from './dto/case-detail.dto';
 
@@ -18,7 +17,6 @@ export class CasesService {
     private readonly casesRepo: Repository<Case>,
     @InjectRepository(CaseProgress)
     private readonly caseProgressRepo: Repository<CaseProgress>,
-    private readonly mediaService: MediaService,
   ) {}
 
   async findCatalogue(userId: string): Promise<CaseSummaryDto[]> {
@@ -34,13 +32,9 @@ export class CasesService {
 
   async findBySlug(slug: string, userId: string): Promise<CaseDetailDto> {
     const found = await this.getPublishedCaseOrFail(slug);
+    const summary = await this.toSummaryDto(found, userId);
 
-    const [summary, detailBackgroundUrl] = await Promise.all([
-      this.toSummaryDto(found, userId),
-      this.mediaService.resolveUrlById(found.detailBackgroundId),
-    ]);
-
-    return { ...summary, synopsis: found.synopsis, detailBackgroundUrl };
+    return { ...summary, synopsis: found.synopsis };
   }
 
   async getPublishedCaseOrFail(slug: string): Promise<Case> {
@@ -62,12 +56,9 @@ export class CasesService {
     caseEntity: Case,
     userId: string,
   ): Promise<CaseSummaryDto> {
-    const [progress, coverUrl] = await Promise.all([
-      this.caseProgressRepo.findOne({
-        where: { userId, caseId: caseEntity.slug },
-      }),
-      this.mediaService.resolveUrlById(caseEntity.coverAssetId),
-    ]);
+    const progress = await this.caseProgressRepo.findOne({
+      where: { userId, caseId: caseEntity.slug },
+    });
 
     return {
       id: caseEntity.id,
@@ -77,7 +68,6 @@ export class CasesService {
       synopsisExcerpt: this.truncateSynopsis(caseEntity.synopsis),
       difficulty: caseEntity.difficulty,
       themeKey: caseEntity.themeKey,
-      coverUrl,
       status: this.deriveStatus(progress),
     };
   }

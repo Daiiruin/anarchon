@@ -29,13 +29,11 @@ export function CaseDetailPage() {
 
   return (
     <div className="relative flex flex-1 flex-col">
-      {data.detailBackgroundUrl && (
-        <img
-          src={data.detailBackgroundUrl}
-          alt=""
-          className="absolute inset-0 h-full w-full object-cover"
-        />
-      )}
+      <img
+        src={`/cases/${data.slug}/cover.webp`}
+        alt=""
+        className="absolute inset-0 h-full w-full object-cover"
+      />
       <div className="absolute inset-0 bg-background/80" />
 
       <div className="relative z-10 mx-auto flex w-full max-w-2xl flex-1 flex-col justify-center gap-6 px-6 py-12">

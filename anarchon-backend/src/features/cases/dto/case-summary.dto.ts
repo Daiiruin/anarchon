@@ -23,9 +23,6 @@ export class CaseSummaryDto {
   @ApiProperty()
   declare themeKey: string;
 
-  @ApiProperty({ nullable: true, type: String })
-  declare coverUrl: string | null;
-
   @ApiProperty({ enum: CaseStatus })
   declare status: CaseStatus;
 }

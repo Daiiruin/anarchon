@@ -26,10 +26,6 @@ class EnvironmentVariables {
   declare FRONTEND_URL?: string;
 
   @IsOptional()
-  @IsUrl({ require_tld: false })
-  declare MEDIA_BASE_URL?: string;
-
-  @IsOptional()
   @IsNumberString()
   declare PORT?: string;
 }

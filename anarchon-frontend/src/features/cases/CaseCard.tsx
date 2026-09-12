@@ -30,17 +30,11 @@ export function CaseCard({ caseSummary }: { caseSummary: CaseSummary }) {
       className="flex flex-col overflow-hidden rounded-lg border border-border bg-card transition-colors hover:border-primary"
     >
       <div className="aspect-video w-full bg-muted">
-        {caseSummary.coverUrl ? (
-          <img
-            src={caseSummary.coverUrl}
-            alt={caseSummary.title}
-            className="h-full w-full object-cover"
-          />
-        ) : (
-          <div className="flex h-full w-full items-center justify-center text-xs text-muted-foreground">
-            Aucune image
-          </div>
-        )}
+        <img
+          src={`/cases/${caseSummary.slug}/cover.webp`}
+          alt={caseSummary.title}
+          className="h-full w-full object-cover"
+        />
       </div>
       <div className="flex flex-col gap-1.5 p-3">
         <h2 className="text-sm font-semibold">{caseSummary.title}</h2>

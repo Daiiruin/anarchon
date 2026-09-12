@@ -4,7 +4,6 @@ import { getRepositoryToken } from '@nestjs/typeorm';
 import { CasesService } from './cases.service';
 import { Case } from './entities/case.entity';
 import { CaseProgress } from '../progression/entities/case-progress.entity';
-import { MediaService } from '../media/media.service';
 import { CasePublicationStatus } from './enums/case-publication-status.enum';
 import { CaseStatus } from './enums/case-status.enum';
 
@@ -12,7 +11,6 @@ describe('CasesService', () => {
   let service: CasesService;
   const casesRepo = { find: jest.fn(), findOne: jest.fn() };
   const caseProgressRepo = { findOne: jest.fn() };
-  const mediaService = { resolveUrlById: jest.fn() };
 
   const publishedCase = {
     id: 'c1',
@@ -23,15 +21,13 @@ describe('CasesService', () => {
     difficulty: 3,
     themeKey: 'hotel-1960',
     publicationStatus: CasePublicationStatus.PUBLISHED,
-    coverAssetId: 'asset-1',
-    detailBackgroundId: 'asset-2',
+    sortOrder: 0,
+    createdAt: new Date(),
+    updatedAt: new Date(),
   } as Case;
 
   beforeEach(async () => {
     jest.clearAllMocks();
-    mediaService.resolveUrlById.mockResolvedValue(
-      'https://cdn.example.com/x.webp',
-    );
     const module = await Test.createTestingModule({
       providers: [
         CasesService,
@@ -40,7 +36,6 @@ describe('CasesService', () => {
           provide: getRepositoryToken(CaseProgress),
           useValue: caseProgressRepo,
         },
-        { provide: MediaService, useValue: mediaService },
       ],
     }).compile();
     service = module.get(CasesService);
@@ -94,12 +89,11 @@ describe('CasesService', () => {
       );
     });
 
-    it('returns the full synopsis and detail background for a PUBLISHED case', async () => {
+    it('returns the full synopsis for a PUBLISHED case', async () => {
       casesRepo.findOne.mockResolvedValue(publishedCase);
       caseProgressRepo.findOne.mockResolvedValue(null);
       const detail = await service.findBySlug('hotel-beaumont', 'user-1');
       expect(detail.synopsis).toBe(publishedCase.synopsis);
-      expect(detail.detailBackgroundUrl).toBe('https://cdn.example.com/x.webp');
     });
   });
 

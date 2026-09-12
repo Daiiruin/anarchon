@@ -13,7 +13,6 @@ function buildCase(overrides: Partial<CaseSummary> = {}): CaseSummary {
     synopsisExcerpt: 'Un homme est retrouvé mort…',
     difficulty: 3,
     themeKey: 'hotel-1960',
-    coverUrl: 'https://cdn.example.com/cover.webp',
     status: 'NOT_STARTED',
     ...overrides,
   };
@@ -41,17 +40,11 @@ describe('CaseCard', () => {
     expect(dots).toHaveTextContent('●●●○○');
   });
 
-  it('shows a placeholder instead of breaking when coverUrl is null', () => {
-    renderCard(buildCase({ coverUrl: null }));
-    expect(screen.getByText('Aucune image')).toBeInTheDocument();
-    expect(screen.queryByRole('img')).not.toBeInTheDocument();
-  });
-
-  it('renders the real cover image when coverUrl is set', () => {
-    renderCard(buildCase({ coverUrl: 'https://cdn.example.com/cover.webp' }));
+  it('builds the cover image src from the case slug', () => {
+    renderCard(buildCase({ slug: 'le-meurtre-de-l-hotel-beaumont' }));
     expect(screen.getByRole('img')).toHaveAttribute(
       'src',
-      'https://cdn.example.com/cover.webp',
+      '/cases/le-meurtre-de-l-hotel-beaumont/cover.webp',
     );
   });
 

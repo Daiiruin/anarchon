@@ -4,11 +4,8 @@ import {
   Column,
   CreateDateColumn,
   UpdateDateColumn,
-  ManyToOne,
-  JoinColumn,
   Check,
 } from 'typeorm';
-import { MediaAsset } from '../../media/entities/media-asset.entity';
 import { CasePublicationStatus } from '../enums/case-publication-status.enum';
 
 @Entity('cases')
@@ -41,27 +38,6 @@ export class Case {
     default: CasePublicationStatus.DRAFT,
   })
   declare publicationStatus: CasePublicationStatus;
-
-  @Column({ type: 'uuid', nullable: true })
-  declare coverAssetId: string | null;
-
-  @ManyToOne(() => MediaAsset, { nullable: true, onDelete: 'SET NULL' })
-  @JoinColumn({ name: 'cover_asset_id' })
-  declare coverAsset: MediaAsset | null;
-
-  @Column({ type: 'uuid', nullable: true })
-  declare detailBackgroundId: string | null;
-
-  @ManyToOne(() => MediaAsset, { nullable: true, onDelete: 'SET NULL' })
-  @JoinColumn({ name: 'detail_background_id' })
-  declare detailBackgroundAsset: MediaAsset | null;
-
-  @Column({ type: 'uuid', nullable: true })
-  declare mapAssetId: string | null;
-
-  @ManyToOne(() => MediaAsset, { nullable: true, onDelete: 'SET NULL' })
-  @JoinColumn({ name: 'map_asset_id' })
-  declare mapAsset: MediaAsset | null;
 
   @Column({ default: 0 })
   declare sortOrder: number;
