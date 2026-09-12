@@ -1,16 +1,14 @@
-import { useCatalogue } from './useCatalogue';
-import { CaseCard } from './CaseCard';
+import { useCatalogue } from '../hooks/useCatalogue';
+import { CaseCard } from '../components/CaseCard';
+import { Loading } from '@/shared/ui/loading';
 
 export function CasesCataloguePage() {
-  const { data, isLoading, isError } = useCatalogue();
+  const { data, loading, error } = useCatalogue();
 
-  if (isLoading) {
-    return (
-      <p className="p-6 text-muted-foreground">Chargement du catalogue…</p>
-    );
-  }
+  if (loading) return <Loading />;
 
-  if (isError) {
+
+  if (error) {
     return (
       <p className="p-6 text-destructive">
         Impossible de charger le catalogue.

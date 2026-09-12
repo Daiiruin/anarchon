@@ -10,5 +10,5 @@ dist/
 .env
 .env.*.local
 
-# Médias locaux (solution temporaire avant un vrai object storage — voir README_ANACHRON.md)
+# Médias locaux (solution temporaire avant un vrai object storage — voir README_ANARCHON.md)
 anarchon-backend/media/

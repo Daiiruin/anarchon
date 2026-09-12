@@ -1,31 +1,22 @@
 import { useEffect } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
-import { useCaseDetail } from './useCaseDetail';
-import type { CaseStatus } from './cases.schemas';
+import { useCaseDetail } from '../hooks/useCaseDetail';
 import { Button } from '@/shared/ui/button';
-
-const ACTION_LABELS: Record<CaseStatus, string> = {
-  NOT_STARTED: "COMMENCER L'AFFAIRE",
-  IN_PROGRESS: "REPRENDRE L'AFFAIRE",
-  COMPLETED: 'CONSULTER L’AFFAIRE',
-};
+import { Loading } from '@/shared/ui/loading';
+import { ACTION_LABELS, STATUS_LABELS, STATUS_BADGE_CLASSES } from '../lib/consts/cases';
 
 export function CaseDetailPage() {
   const { slug } = useParams<{ slug: string }>();
   const navigate = useNavigate();
-  const { data, isLoading, isError } = useCaseDetail(slug ?? '');
+  const { data, loading, error } = useCaseDetail(slug ?? '');
 
   useEffect(() => {
-    // Le backend renvoie le même 404 pour une affaire DRAFT ou inexistante —
-    // le frontend ne doit rien tenter de distinguer, juste revenir au catalogue.
-    if (isError) {
+    if (error) {
       void navigate('/cases', { replace: true });
     }
-  }, [isError, navigate]);
+  }, [error, navigate]);
 
-  if (isLoading || isError || !data) {
-    return <p className="p-6 text-muted-foreground">Chargement…</p>;
-  }
+  if (loading || error || !data) return <Loading />;
 
   return (
     <div className="relative flex flex-1 flex-col">
@@ -39,23 +30,30 @@ export function CaseDetailPage() {
       <div className="relative z-10 mx-auto flex w-full max-w-2xl flex-1 flex-col justify-center gap-6 px-6 py-12">
         <Link
           to="/cases"
-          className="text-sm text-muted-foreground hover:text-foreground"
+          className="font-mono text-sm text-muted-foreground hover:text-foreground"
         >
           ← Retour aux affaires
         </Link>
 
-        <h1 className="text-3xl font-semibold tracking-wide uppercase">
+        <h1 className="font-mono text-3xl font-semibold tracking-wide uppercase">
           {data.title}
         </h1>
-        <p className="text-sm tracking-wide text-muted-foreground uppercase">
-          {data.eraLabel}
-        </p>
+        <div className="flex items-center gap-3">
+          <p className="font-mono text-sm tracking-wide text-muted-foreground uppercase">
+            {data.eraLabel}
+          </p>
+          <span
+            className={`rounded-sm px-1.5 py-0.5 font-mono text-[0.65rem] tracking-wide uppercase ${STATUS_BADGE_CLASSES[data.status]}`}
+          >
+            {STATUS_LABELS[data.status]}
+          </span>
+        </div>
 
         <div>
-          <p className="mb-1 text-xs tracking-wide text-muted-foreground uppercase">
+          <p className="mb-1 font-mono text-xs tracking-wide text-muted-foreground uppercase">
             Difficulté
           </p>
-          <span className="text-lg tracking-widest">
+          <span className="font-mono text-lg tracking-widest">
             <span className="text-primary">{'●'.repeat(data.difficulty)}</span>
             <span className="text-muted-foreground">
               {'○'.repeat(5 - data.difficulty)}

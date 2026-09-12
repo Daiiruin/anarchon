@@ -2,10 +2,18 @@
 @import 'tw-animate-css';
 @import 'shadcn/tailwind.css';
 @import '@fontsource-variable/geist';
+@import '@fontsource-variable/jetbrains-mono';
 
 @theme inline {
   --font-heading: var(--font-sans);
   --font-sans: 'Geist Variable', sans-serif;
+  --font-mono: 'JetBrains Mono Variable', 'Fira Code', monospace;
+  --color-status-not-started: var(--status-not-started);
+  --color-status-not-started-subtle: var(--status-not-started-subtle);
+  --color-status-in-progress: var(--status-in-progress);
+  --color-status-in-progress-subtle: var(--status-in-progress-subtle);
+  --color-status-completed: var(--status-completed);
+  --color-status-completed-subtle: var(--status-completed-subtle);
   --color-sidebar-ring: var(--sidebar-ring);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
@@ -47,7 +55,7 @@
 }
 
 /*
- * Identité QG (README « Univers et identité d'Anachron ») : sombre, sobre,
+ * Identité QG (README « Univers et identité d'Anarchon ») : sombre, sobre,
  * légèrement futuriste — un seul thème, pas de bascule clair/sombre.
  * Ces valeurs alimentent directement les tokens sémantiques shadcn/ui
  * ci-dessus, pour que les composants shadcn héritent la palette QG sans
@@ -60,7 +68,7 @@
   --card-foreground: #e8e6df;
   --popover: #141821;
   --popover-foreground: #e8e6df;
-  --primary: #3fa9a3;
+  --primary: #00e5ff;
   --primary-foreground: #0b0d12;
   --secondary: #1c212c;
   --secondary-foreground: #e8e6df;
@@ -71,8 +79,17 @@
   --destructive: oklch(0.704 0.191 22.216);
   --border: rgb(255 255 255 / 8%);
   --input: rgb(255 255 255 / 12%);
-  --ring: #3fa9a3;
+  --ring: #00e5ff;
   --radius: 0.625rem;
+
+  /* Marque QG : néon cyan/magenta emprunté au portfolio, appliqué avec parcimonie. */
+  --nexus: #ff2e97;
+  --status-not-started: var(--primary);
+  --status-not-started-subtle: color-mix(in srgb, var(--primary) 15%, transparent);
+  --status-in-progress: #ffb000;
+  --status-in-progress-subtle: rgb(255 176 0 / 15%);
+  --status-completed: #00ff9c;
+  --status-completed-subtle: rgb(0 255 156 / 15%);
   --chart-1: oklch(0.87 0 0);
   --chart-2: oklch(0.556 0 0);
   --chart-3: oklch(0.439 0 0);
@@ -80,12 +97,12 @@
   --chart-5: oklch(0.269 0 0);
   --sidebar: #141821;
   --sidebar-foreground: #e8e6df;
-  --sidebar-primary: #3fa9a3;
+  --sidebar-primary: #00e5ff;
   --sidebar-primary-foreground: #0b0d12;
   --sidebar-accent: #1c212c;
   --sidebar-accent-foreground: #e8e6df;
   --sidebar-border: rgb(255 255 255 / 8%);
-  --sidebar-ring: #3fa9a3;
+  --sidebar-ring: #00e5ff;
 }
 
 @layer base {

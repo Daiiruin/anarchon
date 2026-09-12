@@ -25,8 +25,8 @@ async function bootstrap() {
   });
 
   const swaggerConfig = new DocumentBuilder()
-    .setTitle('Anachron API')
-    .setDescription('Anachron backend API')
+    .setTitle('Anarchon API')
+    .setDescription('Anarchon backend API')
     .setVersion('0.0.1')
     .addBearerAuth()
     .build();

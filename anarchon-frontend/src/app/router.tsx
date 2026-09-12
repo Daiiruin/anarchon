@@ -3,16 +3,16 @@ import { QgLayout } from './QgLayout';
 import { ProtectedRoute } from './ProtectedRoute';
 import { LoginPage } from '@/features/auth/LoginPage';
 import { RegisterPage } from '@/features/auth/RegisterPage';
-import { CasesCataloguePage } from '@/features/cases/CasesCataloguePage';
-import { CaseDetailPage } from '@/features/cases/CaseDetailPage';
+import { CasesCataloguePage } from '@/features/cases/pages/CasesCataloguePage';
+import { CaseDetailPage } from '@/features/cases/pages/CaseDetailPage';
 import { CaseGamePage } from '@/features/game/CaseGamePage';
 
 export const router = createBrowserRouter([
+  { path: '/login', element: <LoginPage /> },
+  { path: '/register', element: <RegisterPage /> },
   {
     element: <QgLayout />,
     children: [
-      { path: '/login', element: <LoginPage /> },
-      { path: '/register', element: <RegisterPage /> },
       {
         element: <ProtectedRoute />,
         children: [

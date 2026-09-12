@@ -1,1 +1,1 @@
-CREATE DATABASE anachron_test;
+CREATE DATABASE anarchon_test;

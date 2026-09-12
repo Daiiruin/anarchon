@@ -1,8 +1,8 @@
-# ANACHRON
+# ANARCHON
 
 > Jeu d'enquête narratif full-stack où chaque affaire possède sa propre époque, sa propre ambiance et sa propre identité visuelle.
 
-Anachron est un projet personnel full-stack construit autour de **React**, **NestJS** et **PostgreSQL**.
+Anarchon est un projet personnel full-stack construit autour de **React**, **NestJS** et **PostgreSQL**.
 
 L'objectif est de créer un véritable moteur d'enquêtes réutilisable, et non un simple CRUD habillé en jeu.  
 La première affaire se déroulera dans un hôtel dans une ambiance années 1960. D'autres affaires pourront ensuite prendre place dans une maison hantée, dans le futur, ou dans n'importe quel autre univers.
@@ -33,7 +33,7 @@ Le projet doit rester suffisamment raisonnable pour être terminé, tout en prop
 
 1. [Vision générale](#vision-générale)
 2. [Concept du jeu](#concept-du-jeu)
-3. [Univers et identité d'Anachron](#univers-et-identité-danachron)
+3. [Univers et identité d'Anarchon](#univers-et-identité-danachron)
 4. [Stack technique](#stack-technique)
 5. [Parcours utilisateur](#parcours-utilisateur)
 6. [Catalogue des affaires](#catalogue-des-affaires)
@@ -69,7 +69,7 @@ Le projet doit rester suffisamment raisonnable pour être terminé, tout en prop
 
 # Vision générale
 
-Anachron est un jeu d'enquête narratif dans lequel le joueur rejoint une sorte de **QG / organisation temporelle** regroupant des affaires provenant de différentes époques.
+Anarchon est un jeu d'enquête narratif dans lequel le joueur rejoint une sorte de **QG / organisation temporelle** regroupant des affaires provenant de différentes époques.
 
 Chaque affaire est indépendante :
 
@@ -134,11 +134,11 @@ Le joueur ne sait que ce qu'il a réellement découvert.
 
 ---
 
-# Univers et identité d'Anachron
+# Univers et identité d'Anarchon
 
 Il existe deux grandes couches visuelles.
 
-## 1. Le QG Anachron
+## 1. Le QG Anarchon
 
 Tout ce qui se trouve **hors d'une affaire** utilise une identité visuelle commune :
 
@@ -1226,7 +1226,7 @@ Préchargement intelligent :
 
 # Anti-spoil et sécurité
 
-> **Obsolète (assoupli) :** Anachron étant une expérience solo non compétitive, `README_BACKEND_SIMPLIFICATION.md` assume que le frontend calcule lui-même les états `hidden`/`available`/`discovered` à partir du contenu JSON complet de l'affaire. Seule `solution.json` reste strictement backend. La règle ci-dessous décrit l'intention originelle (ne jamais spoiler le joueur) mais plus son application stricte côté transport réseau.
+> **Obsolète (assoupli) :** Anarchon étant une expérience solo non compétitive, `README_BACKEND_SIMPLIFICATION.md` assume que le frontend calcule lui-même les états `hidden`/`available`/`discovered` à partir du contenu JSON complet de l'affaire. Seule `solution.json` reste strictement backend. La règle ci-dessous décrit l'intention originelle (ne jamais spoiler le joueur) mais plus son application stricte côté transport réseau.
 
 Règle fondamentale :
 
@@ -2260,7 +2260,7 @@ Frontend déjà possible :
 ```text
 Login
 ↓
-Catalogue Anachron
+Catalogue Anarchon
 ↓
 Hôtel Beaumont
 ```
@@ -3047,7 +3047,7 @@ Accusation
 
 # Principe directeur
 
-Anachron doit rester :
+Anarchon doit rester :
 
 > **Un moteur générique qui exécute les règles d'une affaire, et non un backend contenant l'histoire en dur.**
 
@@ -3072,7 +3072,7 @@ sans réécrire le moteur.
 
 ## Validé
 
-- Nom : **Anachron**
+- Nom : **Anarchon**
 - React + TypeScript + Vite
 - NestJS
 - TypeORM
@@ -3129,7 +3129,7 @@ sans réécrire le moteur.
 # Résumé court
 
 ```text
-ANACHRON
+ANARCHON
 
 QG temporel
 ↓
