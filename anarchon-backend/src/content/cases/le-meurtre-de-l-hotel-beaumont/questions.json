@@ -3,7 +3,7 @@
     "id": "antoine-q-what-happened",
     "type": "question",
     "title": "Que s'est-il passé cette nuit ?",
-    "description": "Il a vu Charles Beaumont monter se coucher vers 22h, comme chaque soir, et n'a rien remarqué d'anormal avant l'agitation qui a suivi la découverte du corps. Il propose de vous accompagner jusqu'à la chambre 417.",
+    "description": "« Je l'ai vu monter se coucher vers 22h, comme tous les soirs. Je n'ai rien remarqué d'anormal... pas avant l'agitation, quand on a découvert le corps. Si vous voulez, je peux vous accompagner jusqu'à la chambre 417. »",
     "requiredDiscoveries": ["antoine-ferrand"],
     "data": { "characterId": "antoine-ferrand" }
   },
@@ -11,7 +11,7 @@
     "id": "antoine-q-anything-else",
     "type": "question",
     "title": "Vous souvenez-vous d'autre chose ?",
-    "description": "Il se souvient avoir croisé Marcel Roussel à l'office, au sous-sol, vers 22h15 — au moment même où le registre des accès situe le badge de ce dernier à l'étage. Une contradiction qui ne colle pas.",
+    "description": "« Maintenant que vous le dites, oui... j'ai croisé Marcel Roussel à l'office, au sous-sol, vers 22h15. J'en suis certain. » Le registre des accès situe pourtant le badge de Marcel à l'étage à cette même heure — une contradiction qui ne colle pas.",
     "requiredDiscoveries": ["antoine-ferrand", "access-log"],
     "data": { "characterId": "antoine-ferrand" }
   },
@@ -27,7 +27,7 @@
     "id": "marcel-q-badge",
     "type": "question",
     "title": "Le registre place votre badge dans la chambre 417 à 22h15, qu'avez-vous à dire ?",
-    "description": "Il jure n'être jamais monté à l'étage ce soir-là et affirme avoir passé la soirée à l'office, au sous-sol.",
+    "description": "« Je vous jure que je ne suis jamais monté à l'étage, ce soir-là ! J'ai passé toute la soirée à l'office, au sous-sol. Demandez à qui vous voulez, on vous le confirmera. »",
     "requiredDiscoveries": ["marcel-roussel"],
     "data": { "characterId": "marcel-roussel" }
   },
@@ -35,7 +35,7 @@
     "id": "marcel-locker-key",
     "type": "question",
     "title": "Demander la clé d'accès à son casier",
-    "description": "Hésitant, il vous tend la clé de son casier, le regard fuyant.",
+    "description": "« ... Tenez. » Hésitant, le regard fuyant, il vous tend la clé de son casier.",
     "requiredDiscoveries": ["marcel-roussel", "notebook"],
     "data": { "characterId": "marcel-roussel" }
   }

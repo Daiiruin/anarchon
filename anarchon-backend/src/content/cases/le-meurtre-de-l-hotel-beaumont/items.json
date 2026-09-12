@@ -7,7 +7,7 @@
     "imageUrl": "/media/cases/hotel-beaumont/items/letter-opener.webp",
     "requiredDiscoveries": ["room-417"],
     "data": {
-      "roomId": "room-417",
+      "locationId": "room-417",
       "inspectable": true
     }
   },
@@ -19,7 +19,7 @@
     "imageUrl": "/media/cases/hotel-beaumont/items/vasseur-matchbook.webp",
     "requiredDiscoveries": ["letter-opener"],
     "data": {
-      "roomId": "room-417",
+      "locationId": "room-417",
       "inspectable": true
     }
   }

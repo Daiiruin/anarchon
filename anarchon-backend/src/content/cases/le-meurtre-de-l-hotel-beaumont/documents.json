@@ -7,7 +7,7 @@
     "imageUrl": "/media/cases/hotel-beaumont/documents/charles-schedule.webp",
     "requiredDiscoveries": ["room-417"],
     "data": {
-      "roomId": "room-417",
+      "locationId": "room-417",
       "entries": [
         "Lundi soir — Dîner au restaurant avec Margaux, toute la soirée",
         "Mardi — Réunion avec le personnel",
@@ -24,6 +24,7 @@
     "imageUrl": "/media/cases/hotel-beaumont/documents/access-log.webp",
     "requiredDiscoveries": ["vasseur-matchbook"],
     "data": {
+      "locationId": "room-417",
       "entries": ["22h15 — Badge Marcel Roussel — Chambre 417"]
     }
   },
@@ -35,7 +36,7 @@
     "imageUrl": "/media/cases/hotel-beaumont/documents/notebook.webp",
     "requiredDiscoveries": ["conciergerie"],
     "data": {
-      "roomId": "conciergerie"
+      "locationId": "conciergerie"
     }
   },
   {
@@ -46,7 +47,7 @@
     "imageUrl": "/media/cases/hotel-beaumont/documents/resignation-letter.webp",
     "requiredDiscoveries": ["marcel-locker-key"],
     "data": {
-      "roomId": "conciergerie"
+      "locationId": "conciergerie"
     }
   },
   {
@@ -57,7 +58,7 @@
     "imageUrl": "/media/cases/hotel-beaumont/documents/wife-letter.webp",
     "requiredDiscoveries": ["marcel-locker-key"],
     "data": {
-      "roomId": "conciergerie"
+      "locationId": "conciergerie"
     }
   }
 ]
