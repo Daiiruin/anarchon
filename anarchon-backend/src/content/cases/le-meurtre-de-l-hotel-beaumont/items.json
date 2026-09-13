@@ -4,8 +4,10 @@
     "type": "item",
     "title": "Coupe-papier ensanglanté",
     "description": "Le coupe-papier en argent de Charles Beaumont, habituellement posé sur son secrétaire. La lame porte des traces de sang séché.",
-    "imageUrl": "/media/cases/hotel-beaumont/items/letter-opener.webp",
-    "requiredDiscoveries": ["room-417"],
+    "imageUrl": "/cases/hotel-beaumont/items/letter-opener.png",
+    "requiredDiscoveries": [
+      "room-417"
+    ],
     "data": {
       "locationId": "room-417",
       "inspectable": true
@@ -16,8 +18,10 @@
     "type": "item",
     "title": "Pochette d'allumettes de l'Hôtel Vasseur",
     "description": "Une pochette d'allumettes publicitaire au nom de l'Hôtel Vasseur, un établissement concurrent. Étrange de la trouver ici, tombée près du secrétaire.",
-    "imageUrl": "/media/cases/hotel-beaumont/items/vasseur-matchbook.webp",
-    "requiredDiscoveries": ["letter-opener"],
+    "imageUrl": "/cases/hotel-beaumont/items/vasseur-matchbook.png",
+    "requiredDiscoveries": [
+      "letter-opener"
+    ],
     "data": {
       "locationId": "room-417",
       "inspectable": true

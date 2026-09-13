@@ -4,7 +4,7 @@
     "type": "location",
     "title": "Hall de l'hôtel",
     "description": "Le hall d'entrée, encore éclairé malgré l'heure tardive. Un employé de nuit somnole derrière le comptoir de la réception, dérangé seulement par le bruit de la pluie contre les vitres.",
-    "imageUrl": "/media/cases/hotel-beaumont/locations/hall/background.webp",
+    "imageUrl": "/cases/hotel-beaumont/locations/hall.png",
     "requiredDiscoveries": []
   },
   {
@@ -12,15 +12,19 @@
     "type": "location",
     "title": "Chambre 417",
     "description": "Le bureau privé de Charles Beaumont, attenant à sa chambre. Des papiers sont éparpillés sur le secrétaire, et le tapis porte encore les traces sombres du drame.",
-    "imageUrl": "/media/cases/hotel-beaumont/locations/room-417/background.webp",
-    "requiredDiscoveries": ["antoine-ferrand"]
+    "imageUrl": "/cases/hotel-beaumont/locations/room-417.png",
+    "requiredDiscoveries": [
+      "antoine-q-what-happened"
+    ]
   },
   {
     "id": "conciergerie",
     "type": "location",
     "title": "Conciergerie",
     "description": "Le bureau du personnel, à l'arrière de la réception. Plannings de ménage, clés de rechange et objets oubliés s'entassent sur les étagères.",
-    "imageUrl": "/media/cases/hotel-beaumont/locations/conciergerie/background.webp",
-    "requiredDiscoveries": ["marcel-roussel"]
+    "imageUrl": "/cases/hotel-beaumont/locations/conciergerie.png",
+    "requiredDiscoveries": [
+      "marcel-q-badge"
+    ]
   }
 ]
