@@ -11,6 +11,10 @@ export const router = createBrowserRouter([
   { path: '/login', element: <LoginPage /> },
   { path: '/register', element: <RegisterPage /> },
   {
+    element: <ProtectedRoute />,
+    children: [{ path: '/cases/:slug/play', element: <CaseGamePage /> }],
+  },
+  {
     element: <QgLayout />,
     children: [
       {
@@ -19,7 +23,6 @@ export const router = createBrowserRouter([
           { path: '/', element: <Navigate to="/cases" replace /> },
           { path: '/cases', element: <CasesCataloguePage /> },
           { path: '/cases/:slug', element: <CaseDetailPage /> },
-          { path: '/cases/:slug/play', element: <CaseGamePage /> },
         ],
       },
     ],
