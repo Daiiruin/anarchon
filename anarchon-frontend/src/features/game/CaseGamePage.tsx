@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { useCaseContent } from './useCaseContent';
 import { useDiscoverElement } from './useDiscoverElement';
@@ -33,6 +33,30 @@ export function CaseGamePage() {
   const [isMapOpen, setIsMapOpen] = useState(false);
   const [isAccusationOpen, setIsAccusationOpen] = useState(false);
 
+  // `data` arrive de façon asynchrone : on ne peut pas calculer la zone de
+  // départ dans le useState initial (les lieux ne sont pas encore connus au
+  // premier rendu). `currentLocationId` reste `null` tant que le joueur n'a
+  // pas explicitement voyagé via la carte ; on retombe alors sur la zone de
+  // départ calculée à partir du contenu chargé. Ce calcul doit rester
+  // accessible avant les `return` anticipés ci-dessous pour respecter les
+  // règles des hooks (le `useEffect` de découverte ne peut pas être
+  // conditionnel).
+  const locationId = data
+    ? (currentLocationId ?? getStartingLocationId(data.content.locations))
+    : null;
+  const isLocationDiscovered =
+    !!locationId && !!data?.discoveredElementIds.includes(locationId);
+
+  // Arriver sur un lieu (au chargement initial ou via un voyage sur la
+  // carte) doit le faire découvrir côté serveur : sans ça, `hall` (le point
+  // de départ) ne serait jamais dans `discoveredIds`, et aucun personnage
+  // de la zone de départ ne deviendrait jamais visible.
+  useEffect(() => {
+    if (locationId && !isLocationDiscovered) {
+      discover(locationId);
+    }
+  }, [locationId, isLocationDiscovered, discover]);
+
   if (isLoading || isError || !data) {
     return (
       <p className="flex h-screen items-center justify-center bg-black text-white">
@@ -42,13 +66,6 @@ export function CaseGamePage() {
   }
 
   const discoveredIds = new Set(data.discoveredElementIds);
-  // `data` arrive de façon asynchrone : on ne peut pas calculer la zone de
-  // départ dans le useState initial (les lieux ne sont pas encore connus au
-  // premier rendu). `currentLocationId` reste `null` tant que le joueur n'a
-  // pas explicitement voyagé via la carte ; on retombe alors sur la zone de
-  // départ calculée à partir du contenu chargé.
-  const locationId =
-    currentLocationId ?? getStartingLocationId(data.content.locations);
   const location = data.content.locations.find((loc) => loc.id === locationId);
 
   if (!location) {

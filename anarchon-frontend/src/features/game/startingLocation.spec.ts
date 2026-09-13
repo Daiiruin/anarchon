@@ -42,4 +42,8 @@ describe('getStartingLocationId', () => {
     ];
     expect(getStartingLocationId(locations)).toBe('room-417');
   });
+
+  it('returns null when there are no locations', () => {
+    expect(getStartingLocationId([])).toBeNull();
+  });
 });
